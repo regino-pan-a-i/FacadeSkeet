@@ -2,6 +2,7 @@
 
 #include <string>
 #include <sstream>
+#include <cassert>
 using namespace std;
 
 
@@ -26,85 +27,95 @@ using namespace std;
 //   #include <math.h>
 //   #define GLUT_TEXT GLUT_BITMAP_HELVETICA_12
 //   // #endif // _WIN32
-
-void OGStream::flush()
-{
-
-}
 void OGStream::setPosition(Position pos)
 {
-	Position position = pos;
+   Position position = pos;
 }
-void drawRectangle(const Position& pt,
-	               double angle = 0.0,
-	               double width = 10.0,
-	               double height = 100.0,
-	               double red = 1.0,
-	               double green = 1.0,
-	               double blue = 1.0)
+
+/************************************************************************
+ * ROTATE
+ * Rotate a given point (point) around a given origin (center) by a given
+ * number of degrees (angle).
+ *    INPUT  origin   The center point we will rotate around
+ *           x,y      Offset from center that we will be rotating
+ *           rotation Rotation in degrees
+ *    OUTPUT point    The new position
+ *************************************************************************/
+Position OGStream::rotate(const Position& origin, double x, double y, double rotation) const
 {
-	glBegin(GL_QUADS);
-	glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
+  // because sine and cosine are expensive, we want to call them only once
+  double cosA = cos(rotation);
+  double sinA = sin(rotation);
 
-	// Draw the actual line
-	glVertexPoint(rotate(pt, width / 2.0, height / 2.0, angle));
-	glVertexPoint(rotate(pt, width / 2.0, -height / 2.0, angle));
-	glVertexPoint(rotate(pt, -width / 2.0, -height / 2.0, angle));
-	glVertexPoint(rotate(pt, -width / 2.0, height / 2.0, angle));
-	glVertexPoint(rotate(pt, width / 2.0, height / 2.0, angle));
+  // start with our original point
+  Position ptReturn(origin);
 
-	// Complete drawing
-	glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
-	glEnd();
+  // find the new values
+  ptReturn.addX(x * cosA - y * sinA);
+  ptReturn.addY(y * cosA + x * sinA /*center of rotation*/);
+
+  return ptReturn;
 }
 
 /*************************************************************************
  * GL VERTEXT POINT
  * Just a more convenient format of glVertext2f
  *************************************************************************/
-inline void glVertexPoint(const Position& point)
+inline void OGStream::glVertexPoint(const Position& point) const
 {
    glVertex2f((GLfloat)point.getX(), (GLfloat)point.getY());
 }
 
-void OGStream::drawLine(const Position& begin, const Position& end,
-	double red, double green, double blue)
+void OGStream::drawRectangle(const Position& pt, double angle, double width, double height, double red, double green, double blue) const
 {
-	glBegin(GL_LINES);
-	glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
+   glBegin(GL_QUADS);
+   glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
 
-	// Draw the actual line
-	glVertexPoint(begin);
-	glVertexPoint(end);
+   // Draw the actual line
+   glVertexPoint(rotate(pt, width / 2.0, height / 2.0, angle));
+   glVertexPoint(rotate(pt, width / 2.0, -height / 2.0, angle));
+   glVertexPoint(rotate(pt, -width / 2.0, -height / 2.0, angle));
+   glVertexPoint(rotate(pt, -width / 2.0, height / 2.0, angle));
+   glVertexPoint(rotate(pt, width / 2.0, height / 2.0, angle));
 
-	// Complete drawing
-	glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
-	glEnd();
-
-}
-void OGStream::drawDot()
-{
-	// Get ready, get set...
-	glBegin(GL_TRIANGLE_FAN);
-	glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
-	double r = radius / 2.0;
-
-	// Go...
-	glVertex2f((GLfloat)(point.getX() - r), (GLfloat)(point.getY() - r));
-	glVertex2f((GLfloat)(point.getX() + r), (GLfloat)(point.getY() - r));
-	glVertex2f((GLfloat)(point.getX() + r), (GLfloat)(point.getY() + r));
-	glVertex2f((GLfloat)(point.getX() - r), (GLfloat)(point.getY() + r));
-
-	// Done!  OK, that was a bit too dramatic
-	glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
-	glEnd();
+   // Complete drawing
+   glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
+   glEnd();
 }
 
+void OGStream::drawLine(const Position& begin, const Position& end, double red, double green, double blue) const
+{
+   glBegin(GL_LINES);
+   glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
 
+   // Draw the actual line
+   glVertexPoint(begin);
+   glVertexPoint(end);
 
+   // Complete drawing
+   glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
+   glEnd();
+}
 
-void OGStream::drawDisk(const Position& center, double radius,
-                        double red, double green, double blue)
+void OGStream::drawDot(const Position& point, double radius, double red, double green, double blue) const
+{
+   // Get ready, get set...
+   glBegin(GL_TRIANGLE_FAN);
+   glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
+   double r = radius / 2.0;
+
+   // Go...
+   glVertex2f((GLfloat)(point.getX() - r), (GLfloat)(point.getY() - r));
+   glVertex2f((GLfloat)(point.getX() + r), (GLfloat)(point.getY() - r));
+   glVertex2f((GLfloat)(point.getX() + r), (GLfloat)(point.getY() + r));
+   glVertex2f((GLfloat)(point.getX() - r), (GLfloat)(point.getY() + r));
+
+   // Done!  OK, that was a bit too dramatic
+   glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
+   glEnd();
+}
+
+void OGStream::drawDisk(const Position& center, double radius, double red, double green, double blue) const
 {
    assert(radius > 1.0);
    const double increment = M_PI / radius;  // bigger the circle, the more increments
@@ -120,9 +131,7 @@ void OGStream::drawDisk(const Position& center, double radius,
    Position pt2(pt1);
 
    // go around the circle
-   for (double radians = increment;
-      radians <= M_PI * 2.0 + .5;
-      radians += increment)
+   for (double radians = increment; radians <= M_PI * 2.0 + .5; radians += increment)
    {
       pt2.setX(center.getX() + (radius * cos(radians)));
       pt2.setY(center.getY() + (radius * sin(radians)));
@@ -137,7 +146,8 @@ void OGStream::drawDisk(const Position& center, double radius,
    // complete drawing
    glEnd();
 }
-void OGStream::drawBackground(double redBack, double greenBack, double blueBack, Position dimensions)
+
+void OGStream::drawBackground(double redBack, double greenBack, double blueBack, Position dimensions) const
 {
    glBegin(GL_TRIANGLE_FAN);
 
@@ -149,11 +159,9 @@ void OGStream::drawBackground(double redBack, double greenBack, double blueBack,
    glVertex2f((GLfloat)0.0, (GLfloat)dimensions.getY());
 
    glEnd();
-
 }
-void OGStream::drawHourglass(double percent,
-                             double redFore, double greenFore, double blueFore,
-                             double redBack, double greenBack, double blueBack, Position dimensions)
+
+void OGStream::drawHourglass(double percent, double redFore, double greenFore, double blueFore, double redBack, double greenBack, double blueBack, Position dimensions) const
 {
    double radians;
 
@@ -233,9 +241,28 @@ void OGStream::drawHourglass(double percent,
    glVertex2f(x_extent, y_extent);
    glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
    glEnd();
-
 }
-void OGStream::drawText(const Position& topLeft, const char* textÏ)
-{
 
+/*************************************************************************
+ * DRAW TEXT
+ * Draw text using a simple bitmap font
+ *   INPUT  topLeft   The top left corner of the text
+ *          text      The text to be displayed
+ ************************************************************************/
+void OGStream::drawText(const Position& topLeft, const char* text) const
+{
+   void* pFont = GLUT_TEXT;
+   glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
+
+   // prepare to output the text from the top-left corner
+   glRasterPos2f((GLfloat)topLeft.getX(), (GLfloat)topLeft.getY());
+
+   // loop through the text
+   for (const char* p = text; *p; p++)
+      glutBitmapCharacter(pFont, *p);
+}
+
+void OGStream::drawText(const Position& topLeft, const string& text) const
+{
+   drawText(topLeft, text.c_str());
 }

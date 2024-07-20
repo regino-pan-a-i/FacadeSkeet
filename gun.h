@@ -9,6 +9,7 @@
 
 #pragma once
 #include "position.h"
+#include "OGStream.h"
 
 /*********************************************
  * GUN
@@ -25,4 +26,5 @@ public:
 private:
    double angle;
    Position pt;
+   OGStream gout;
 };

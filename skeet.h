@@ -18,7 +18,7 @@
 #include "time.h"
 #include "score.h"
 #include "points.h"
-
+#include "OGStream.h"
 #include <list>
 
 /*************************************************************************

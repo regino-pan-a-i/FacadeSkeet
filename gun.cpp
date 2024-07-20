@@ -40,31 +40,31 @@
   *           rotation Rotation in degrees
   *    OUTPUT point    The new position
   *************************************************************************/
-Position rotate(const Position& origin,
-   double x, double y, double rotation) 
-{
-   // because sine and cosine are expensive, we want to call them only once
-   double cosA = cos(rotation);
-   double sinA = sin(rotation);
+//Position rotate(const Position& origin,
+//   double x, double y, double rotation) 
+//{
+//   // because sine and cosine are expensive, we want to call them only once
+//   double cosA = cos(rotation);
+//   double sinA = sin(rotation);
+//
+//   // start with our original point
+//   Position ptReturn(origin);
+//
+//   // find the new values
+//   ptReturn.addX(x * cosA - y * sinA);
+//   ptReturn.addY(y * cosA + x * sinA /*center of rotation*/);
+//
+//   return ptReturn;
+//}
 
-   // start with our original point
-   Position ptReturn(origin);
-
-   // find the new values
-   ptReturn.addX(x * cosA - y * sinA);
-   ptReturn.addY(y * cosA + x * sinA /*center of rotation*/);
-
-   return ptReturn;
-}
-
-/*************************************************************************
- * GL VERTEXT POINT
- * Just a more convenient format of glVertext2f
- *************************************************************************/
-inline void glVertexPoint(const Position& point)
-{
-   glVertex2f((GLfloat)point.getX(), (GLfloat)point.getY());
-}
+///*************************************************************************
+// * GL VERTEXT POINT
+// * Just a more convenient format of glVertext2f
+// *************************************************************************/
+//inline void glVertexPoint(const Position& point)
+//{
+//   glVertex2f((GLfloat)point.getX(), (GLfloat)point.getY());
+//}
 
 /************************************************************************
  * DRAW RECTANGLE
@@ -83,11 +83,11 @@ void drawRectangle(const Position& pt,
    glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
 
    // Draw the actual line
-   glVertexPoint(rotate(pt,  width / 2.0,  height / 2.0, angle));
-   glVertexPoint(rotate(pt,  width / 2.0, -height / 2.0, angle));
-   glVertexPoint(rotate(pt, -width / 2.0, -height / 2.0, angle));
-   glVertexPoint(rotate(pt, -width / 2.0,  height / 2.0, angle));
-   glVertexPoint(rotate(pt,  width / 2.0,  height / 2.0, angle));
+//   glVertexPoint(rotate(pt,  width / 2.0,  height / 2.0, angle));
+//   glVertexPoint(rotate(pt,  width / 2.0, -height / 2.0, angle));
+//   glVertexPoint(rotate(pt, -width / 2.0, -height / 2.0, angle));
+//   glVertexPoint(rotate(pt, -width / 2.0,  height / 2.0, angle));
+//   glVertexPoint(rotate(pt,  width / 2.0,  height / 2.0, angle));
 
    // Complete drawing
    glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
@@ -100,7 +100,7 @@ void drawRectangle(const Position& pt,
   *********************************************/
 void Gun::display() const
 {
-   drawRectangle(pt, M_PI_2 - angle, 10.0, 100.0, 1.0, 1.0, 1.0);
+   gout.drawRectangle(pt, M_PI_2 - angle, 10.0, 100.0, 1.0, 1.0, 1.0);
 }
 
 /*********************************************

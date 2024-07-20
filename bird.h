@@ -9,6 +9,7 @@
 
 #pragma once
 #include "position.h"
+#include "OGStream.h"
 
 /**********************
  * BIRD
@@ -23,6 +24,7 @@ protected:
    double radius;             // the size (radius) of the flyer
    bool dead;                 // is this flyer dead?
    int points;                // how many points is this worth?
+   OGStream gout;
    
 public:
    Bird() : dead(false), points(0), radius(1.0) { }

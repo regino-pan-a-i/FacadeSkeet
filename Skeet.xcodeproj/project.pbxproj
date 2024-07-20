@@ -20,7 +20,7 @@
 		C1D4EAED2577F57B002B56E3 /* uiInteract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C1D4EAE52577F576002B56E3 /* uiInteract.cpp */; };
 		C1D4EAF22577F58C002B56E3 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D4EAF02577F58C002B56E3 /* GLUT.framework */; };
 		C1D4EAF32577F58C002B56E3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D4EAF12577F58C002B56E3 /* OpenGL.framework */; };
-		E7A0B4162BF3CDFF00F3BACC /* advance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E7A0B4142BF3CDFF00F3BACC /* advance.cpp */; };
+		E737DCCF2C4982E600A7F488 /* OGStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E737DCCD2C4982E600A7F488 /* OGStream.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,8 +60,8 @@
 		C1D4EAE62577F578002B56E3 /* uiInteract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uiInteract.h; sourceTree = "<group>"; };
 		C1D4EAF02577F58C002B56E3 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		C1D4EAF12577F58C002B56E3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		E7A0B4142BF3CDFF00F3BACC /* advance.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = advance.cpp; sourceTree = "<group>"; };
-		E7A0B4152BF3CDFF00F3BACC /* advance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = advance.h; sourceTree = "<group>"; };
+		E737DCCD2C4982E600A7F488 /* OGStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OGStream.cpp; sourceTree = "<group>"; };
+		E737DCCE2C4982E600A7F488 /* OGStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGStream.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +80,8 @@
 		C1D4EACA2577F487002B56E3 = {
 			isa = PBXGroup;
 			children = (
-				E7A0B4142BF3CDFF00F3BACC /* advance.cpp */,
-				E7A0B4152BF3CDFF00F3BACC /* advance.h */,
+				E737DCCD2C4982E600A7F488 /* OGStream.cpp */,
+				E737DCCE2C4982E600A7F488 /* OGStream.h */,
 				C10803202AAF7E11005CEA4E /* points.cpp */,
 				C108031F2AAF7E11005CEA4E /* points.h */,
 				C16B8F532744AFD8009CC1DC /* score.h */,
@@ -183,8 +183,8 @@
 			files = (
 				C16B8F522744ABDE009CC1DC /* score.cpp in Sources */,
 				C1D4EAED2577F57B002B56E3 /* uiInteract.cpp in Sources */,
-				E7A0B4162BF3CDFF00F3BACC /* advance.cpp in Sources */,
 				C10803212AAF7E11005CEA4E /* points.cpp in Sources */,
+				E737DCCF2C4982E600A7F488 /* OGStream.cpp in Sources */,
 				C184132A273E9C4900143AB2 /* bullet.cpp in Sources */,
 				C15451E627403ED30095997B /* effect.cpp in Sources */,
 				C184132C273E9C4900143AB2 /* bird.cpp in Sources */,

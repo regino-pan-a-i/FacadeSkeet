@@ -33,11 +33,29 @@ void OGStream::flush()
 }
 void OGStream::setPosition(Position pos)
 {
-
+	Position position = pos;
 }
-void OGStream::drawRectangle(Position pos)
+void drawRectangle(const Position& pt,
+	               double angle = 0.0,
+	               double width = 10.0,
+	               double height = 100.0,
+	               double red = 1.0,
+	               double green = 1.0,
+	               double blue = 1.0)
 {
+	glBegin(GL_QUADS);
+	glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
 
+	// Draw the actual line
+	glVertexPoint(rotate(pt, width / 2.0, height / 2.0, angle));
+	glVertexPoint(rotate(pt, width / 2.0, -height / 2.0, angle));
+	glVertexPoint(rotate(pt, -width / 2.0, -height / 2.0, angle));
+	glVertexPoint(rotate(pt, -width / 2.0, height / 2.0, angle));
+	glVertexPoint(rotate(pt, width / 2.0, height / 2.0, angle));
+
+	// Complete drawing
+	glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
+	glEnd();
 }
 
 /*************************************************************************
@@ -66,7 +84,20 @@ void OGStream::drawLine(const Position& begin, const Position& end,
 }
 void OGStream::drawDot()
 {
+	// Get ready, get set...
+	glBegin(GL_TRIANGLE_FAN);
+	glColor3f((GLfloat)red, (GLfloat)green, (GLfloat)blue);
+	double r = radius / 2.0;
 
+	// Go...
+	glVertex2f((GLfloat)(point.getX() - r), (GLfloat)(point.getY() - r));
+	glVertex2f((GLfloat)(point.getX() + r), (GLfloat)(point.getY() - r));
+	glVertex2f((GLfloat)(point.getX() + r), (GLfloat)(point.getY() + r));
+	glVertex2f((GLfloat)(point.getX() - r), (GLfloat)(point.getY() + r));
+
+	// Done!  OK, that was a bit too dramatic
+	glColor3f((GLfloat)1.0 /* red % */, (GLfloat)1.0 /* green % */, (GLfloat)1.0 /* blue % */);
+	glEnd();
 }
 
 
